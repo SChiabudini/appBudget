@@ -1,7 +1,10 @@
-package categories;
+package entities;
 
 public class ExpensesCategory {
     private String name;
+
+    public ExpensesCategory() {
+    }
 
     public ExpensesCategory(String name) {
         this.name = name;
@@ -13,5 +16,12 @@ public class ExpensesCategory {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "ExpensesCategory{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
