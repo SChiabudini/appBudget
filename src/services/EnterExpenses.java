@@ -2,6 +2,11 @@ package services;
 
 import entities.Expense;
 import entities.ExpensesCategory;
+import exceptions.InvalidExpenseException;
+import interfaces.ExpenseAmountValidator;
+import interfaces.ExpenseAmountValidatorImplement;
+import interfaces.ExpenseCalculator;
+import interfaces.ExpenseCalculatorImplement;
 
 import java.util.Scanner;
 
@@ -10,7 +15,7 @@ public class EnterExpenses {
     public EnterExpenses() {
     }
 
-    public static void addExpenses(){
+    public static void addExpenses() throws InvalidExpenseException {
         int counter = 1;
         Scanner scanner = new Scanner(System.in);
 
@@ -18,6 +23,9 @@ public class EnterExpenses {
 
         int index = 0;
         int incomeItemsAmount = 0;
+
+        ExpenseAmountValidator expenseAmountValidator = new ExpenseAmountValidatorImplement();
+        ExpenseCalculator expenseCalculator = new ExpenseCalculatorImplement();
 
         do{
             System.out.println("Ingrese la cantidad de gastos a registrar");
@@ -40,6 +48,11 @@ public class EnterExpenses {
 
             System.out.println("Ingrese el monto del gasto:");
             Double amount = scanner.nextDouble();
+
+            if(!expenseAmountValidator.notValidAmount(amount)){
+                System.out.println("El monto es válido");
+            }
+
             scanner.nextLine();
 
             System.out.println("Ingrese la categoría del gasto:");
@@ -60,6 +73,9 @@ public class EnterExpenses {
             counter++;
             index++;
         } while(index < incomeItemsAmount);
+
+        System.out.println("Total de gastos ingresados: " + expenseCalculator.calculateTotalExpense(expenses));
+
 
         System.out.println("Detalle de gastos ingresados:");
         for(int i = 0; i < expenses.length; i++){
